@@ -25,7 +25,11 @@ from .time_utils import now_iso
 async def lifespan(_app: FastAPI):
     db = get_db()
     run_migrations(db)
-    seed_database(db, reset=False)
+    if getattr(db, "is_postgres", False):
+        with db.seed_lock():
+            seed_database(db, reset=False)
+    else:
+        seed_database(db, reset=False)
     yield
 
 
