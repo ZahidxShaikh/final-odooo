@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sqlite3
+import os
 import threading
 from contextlib import contextmanager
 from pathlib import Path
@@ -563,7 +564,7 @@ def snake_to_camel(name: str) -> str:
     return parts[0] + "".join(p.capitalize() for p in parts[1:] if p)
 
 
-def row_to_dict(row: sqlite3.Row | None) -> dict[str, Any] | None:
+def row_to_dict(row: sqlite3.Row | dict[str, Any] | None) -> dict[str, Any] | None:
     if row is None:
         return None
     out: dict[str, Any] = {}
@@ -658,7 +659,11 @@ def get_db() -> Database:
     if _default_db is None:
         with _default_db_lock:
             if _default_db is None:
-                _default_db = Database()
+                if os.environ.get("DATABASE_URL", "").strip():
+                    from .postgres_db import PostgresDatabase
+                    _default_db = PostgresDatabase(os.environ["DATABASE_URL"])
+                else:
+                    _default_db = Database()
     return _default_db
 
 
@@ -670,6 +675,15 @@ def create_db_connection(db_path: str = ":memory:") -> Database:
 
 def run_migrations(db: Database | None = None) -> None:
     target = db or get_db()
+    if getattr(target, "is_postgres", False):
+        if getattr(target, "_migrated", False):
+            return
+        existing = target.fetch_one("SELECT to_regclass('public.roles') AS role_table")
+        if existing and existing.get("roleTable") is None:
+            target.exec_script(SCHEMA_SQL)
+        target.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified INTEGER NOT NULL DEFAULT 1")
+        target._migrated = True
+        return
     target.exec_script(SCHEMA_SQL)
     user_columns = target.fetch_all("PRAGMA table_info(users)")
     if not any(column["name"] == "email_verified" for column in user_columns):
