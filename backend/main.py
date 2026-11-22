@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+import logging
+
+logger = logging.getLogger("club.startup")
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -23,13 +26,17 @@ from .time_utils import now_iso
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    db = get_db()
-    run_migrations(db)
-    if getattr(db, "is_postgres", False):
-        with db.seed_lock():
+    try:
+        db = get_db()
+        run_migrations(db)
+        if getattr(db, "is_postgres", False):
+            with db.seed_lock():
+                seed_database(db, reset=False)
+        else:
             seed_database(db, reset=False)
-    else:
-        seed_database(db, reset=False)
+    except Exception as exc:
+        logger.error("Database initialization failed: %s: %s", type(exc).__name__, exc)
+        raise
     yield
 
 
