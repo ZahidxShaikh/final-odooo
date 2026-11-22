@@ -17,8 +17,8 @@ npm run dev
 
 Build: `npm run build` (Vite). API: `api/index.py` (FastAPI), routed through `vercel.json`.
 
-Production environment variables: `JWT_SECRET` (secure random value), `DATABASE_PATH=/tmp/champions_club.db`. Configure Gmail, Telegram, or Gemini integration keys only if you use those features.
+Production environment variables: `DATABASE_URL` (Neon PostgreSQL connection string, encrypted on Vercel) and `JWT_SECRET` (secure random value). Configure Gmail, Telegram, or Gemini integration keys only if you use those features. For local development without `DATABASE_URL`, the app continues to use SQLite.
 
-**Demo only:** Vercel `/tmp` is ephemeral and instance-local. SQLite changes will not persist reliably, and data may reset after cold starts. Do not use this deployment for real transactions or customer data. For production, switch to a persistent hosted database, disable seeded public demo users, and review authentication.
+**Neon persistent storage enabled:** production database records now persist independently of serverless restarts. Existing SQLite demo records were not imported from ephemeral Vercel instances; this is a fresh PostgreSQL demo seed. **Demo only:** publicly known seeded demo credentials remain enabled, so do not use real customer data or real payment processing without replacing demo accounts, strengthening authorization, and reviewing transaction safety. Neon free-tier quotas still apply.
 
 Promotional video may load from the original public GitHub repository; redundant original high-resolution images were left out to keep deployment manageable.
