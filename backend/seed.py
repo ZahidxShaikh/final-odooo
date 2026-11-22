@@ -642,11 +642,11 @@ def seed_database(db: Database | None = None, *, reset: bool = True) -> None:
         product_images = {
             "Pro Staff v14 Carbon Racket": "/src/assets/images/products/alpha-tennis-racket-yellow.webp",
             "Pure Aero Spin Tennis Frame": "/src/assets/images/products/alpha-tennis-racket-black.webp",
-            "Speed MP Graphene Racket": "/src/assets/images/products/alpha-tennis-racket-yellow-alt.png",
+            "Speed MP Graphene Racket": "/src/assets/images/products/alpha-tennis-racket-yellow.webp",
             "Vertex 04 Pro Padel Bat": "/src/assets/images/products/alpha-padel-racket-red.webp",
             "AT10 Genius Padel Racket": "/src/assets/images/products/alpha-padel-racket-nox.webp",
             "Astrox 99 Badminton Frame": "/src/assets/images/products/alpha-badminton-racket-red.webp",
-            'Junior Pro 25" Tennis Racket': "/src/assets/images/products/alpha-tennis-racket-black-alt.png",
+            'Junior Pro 25" Tennis Racket': "/src/assets/images/products/alpha-tennis-racket-black.webp",
             "English Willow Grade-A Cricket Bat": "/src/assets/images/products/alpha-cricket-bat.webp",
             "Tour Championship Tennis Balls (4-Can)": "/src/assets/images/products/alpha-tennis-balls-4-can.webp",
             "US Open Extra Duty Ball Case (18 Cans)": "/src/assets/images/products/alpha-tennis-ball-case.webp",
