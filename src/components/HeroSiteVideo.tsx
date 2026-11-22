@@ -82,7 +82,7 @@ export function HeroSiteVideo() {
         <div className="relative aspect-video w-full bg-slate-950 overflow-hidden flex-1">
           <video
             ref={videoRef}
-            src="/src/assets/videos/champions_club_hero.mp4"
+            src="https://raw.githubusercontent.com/zahidxtech/Final_odoo_hackthon/main/src/assets/videos/champions_club_hero.mp4"
             poster="/src/assets/images/hero_tennis_club_1795254056266.jpg"
             autoPlay
             loop
@@ -190,7 +190,7 @@ export function HeroSiteVideo() {
             <div className="rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-video">
               <video
                 ref={modalVideoRef}
-                src="/src/assets/videos/champions_club_hero.mp4"
+                src="https://raw.githubusercontent.com/zahidxtech/Final_odoo_hackthon/main/src/assets/videos/champions_club_hero.mp4"
                 poster="/src/assets/images/hero_tennis_club_1795254056266.jpg"
                 controls
                 autoPlay
