@@ -17,7 +17,7 @@ from .db import SCHEMA_SQL, row_to_dict
 
 def _postgres_sql(sql: str) -> str:
     # This application uses SQLite's qmark bound-parameter convention.
-    return sql.replace("?", "%s")
+    return sql.replace("%", "%%").replace("?", "%s")
 
 
 class PostgresDatabase:
